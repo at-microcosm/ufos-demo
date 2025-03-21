@@ -15,6 +15,7 @@ function App({ hash }) {
 
   return (
     <>
+      <p class="wip">very very work-in-progress demo</p>
       <h1>UFOs</h1>
       <p className="def">
         <strong>U</strong>nidentified <strong>F</strong>lying lexic<strong>O</strong>ns <small>(sorry)</small>
