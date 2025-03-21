@@ -1,0 +1,64 @@
+.lex-group {
+  min-width: 28em;
+}
+.lex-group h3 {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.4em;
+}
+h4 {
+  margin: 0;
+  padding: 0.4em;
+}
+.lex-group {
+  position: relative;
+  padding: 0.7em 0 0.5em;
+  margin-bottom: 2em;
+}
+.bar {
+  height: 3px;
+  background: #ff0;
+  position: absolute;
+  top: -1px;
+}
+.lex-group::before {
+  content: "";
+  background: #333;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.6em;
+  z-index: -1;
+}
+.bar-number {
+  position: relative;
+  left: calc(100% + 0.3em);
+  top: -1.1em;
+  font-size: 0.7em;
+  color: #ff0;
+}
+
+.group-prefix {
+  color: #ff0;
+}
+
+.suffix-group {
+  position: relative;
+  margin: 1em 0;
+  color: #ccc;
+}
+.suffix-group .bar {
+  background: #0a0;
+  height: 2px;
+}
+.suffix-group .bar-number {
+  color: #0a0;
+}
+.suffix-group a {
+  color: #cfc;
+}
+.suffix-group a:hover {
+  color: #8f8;
+}

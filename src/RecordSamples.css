@@ -1,0 +1,83 @@
+
+.preview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: hsla(0, 0%, 0%, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview {
+  background: hsla(0, 0%, 14%, 0.8);
+  border-radius: 0.3em;
+  border: 1px solid #333;
+  padding: 1em;
+  box-shadow: 0 0 0.5em hsla(0, 0%, 0%, 0.5);
+}
+
+.preview h3 {
+  margin: 0 0 1em;
+  color: #Ff0;
+}
+
+.error {
+  color: #faa;
+}
+
+.samples-view {
+  box-sizing: border-box;
+  max-height: calc(90vh - 8em);
+  max-width: 90vw;
+  overflow: scroll;
+  text-align: left;
+}
+
+.sample {
+  margin: 0 0 1.5em;
+  background: hsla(0, 0%, 0%, 0.6);
+}
+
+.sample .uri {
+  margin: 0;
+  padding: 0.1em 0.5em 0;
+  background: #066;
+  font-size: 0.85em;
+  border-bottom: 2px solid #066;
+}
+.sample .uri a {
+  color: #000;
+}
+
+.sample-content {
+  padding: 0.5em;
+}
+
+.sample .s {
+  color: #f8f;
+}
+.sample .n {
+  color: #f98;
+}
+.sample .null {
+  color: #777;
+}
+
+.json-indent {
+  margin-left: 1.2em;
+}
+.json-object-kv {
+}
+.json-obj-key {
+  color: #0ff;
+}
+
+.sample .time-ago {
+  text-align: right;
+  padding: 0 0.5em 0.5em 0;
+  font-size: 0.85em;
+  margin-top: -2em;
+}

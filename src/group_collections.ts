@@ -1,0 +1,44 @@
+function filtering(cs, filter) {
+  if (!filter) return cs;
+  let out = {};
+  Object.keys(cs).forEach(nsid => {
+    if (nsid.includes(filter)) {
+      out[nsid] = cs[nsid];
+    }
+  });
+  return out;
+}
+
+function to_top_groups(cs) {
+  const grouped = {};
+  Object.keys(cs).forEach(nsid => {
+    const n = cs[nsid];
+    const things = [];
+    const parts = nsid.split('.');
+    const group = parts.slice(0, 2).join('.');
+    const thing = parts.slice(2).join('.');
+    if (!grouped[group]) {
+      grouped[group] = {
+        n: 0,
+        things: [],
+      }
+    }
+    const grouped_group = grouped[group];
+    grouped_group.n += n;
+    grouped_group.things.push({
+      thing,
+      n
+    });
+  });
+
+  let groups = Object.keys(grouped).map(group => {
+    let grouped_group = grouped[group];
+    grouped_group.things.sort((a, b) => b.n - a.n);
+    return { group, ...grouped_group };
+  });
+  groups.sort((a, b) => b.n - a.n)
+
+  return groups;
+}
+
+export { to_top_groups, filtering }
