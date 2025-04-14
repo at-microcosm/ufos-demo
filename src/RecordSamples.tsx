@@ -1,58 +1,26 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
+import Fetch from './Fetch'
+
 import './RecordSamples.css'
 
 const esc = e => { window.history.back(); }
 const stopProp = e => e.stopPropagation();
 
-function RecordSamples({ collection }) {
-  const [asyncData, setAsyncData] = useState({ state: null });
-
-  useEffect(() => {
-    let ignore = false;
-    setAsyncData({ state: 'loading' });
-    (async () => {
-      try {
         // const res = await fetch(`http://localhost:9999/records?collection=${collection}`);
-        const res = await fetch(`http://bonilla:9999/records?collection=${collection}`);
-        const data = await res.json();
-        if (!ignore) {
-          setAsyncData({ state: 'done', data });
-        }
-      } catch (err) {
-        if (!ignore) {
-          setAsyncData({ state: 'error', err });
-        }
-      }
-    })();
-    return () => {
-      ignore = true;
-    }
-  }, [collection]);
+        // const res = await fetch(`http://bonilla:9999/records?collection=${collection}`);
 
-  let content;
-
-  if (asyncData.state === 'loading') {
-    content = <p><em>Loading&hellip;</em></p>;
-  } else if (asyncData.state === 'error') {
-    content = <p class="error mono">
-      <strong>Error</strong>:<br/>{`${asyncData.err}`}
-    </p>;
-  } else if (asyncData.state === null) {
-    content = <p>request has not started (bug?)</p>;
-  } else {
-    if (asyncData.state !== 'done') { console.warn(`unexpected async data state: ${asyncData.state}`); }
-    content = (
-      <div className="samples-view mono">
-        {asyncData.data.map(sample => <Sample data={sample} />)}
-      </div>
-    );
-  }
-
+function RecordSamples({ collection }) {
+  const url = `http://localhost:9999/records?collection=${collection}`
   return (
     <div className="preview-overlay" onClick={esc}>
       <div className="preview" onClick={stopProp}>
         <h3 className="mono">{collection}</h3>
-        {content}
+        <Fetch get={url} ok={samples => (
+          <div className="samples-view mono">
+            {samples.map(sample =>
+              <Sample key={`${sample.did}//${sample.rkey}`} data={sample} />)}
+          </div>
+        )} />
       </div>
     </div>
   );
@@ -90,10 +58,10 @@ function Sample({ data }) {
       <p className="uri">
         <a href={`https://pdsls.dev/${at_uri}`} target="_blank">{at_uri}</a>
       </p>
-      <div class="sample-content">
+      <div className="sample-content">
         <JsonObject object={record} ellide$type={collection} />
       </div>
-      <div class="time-ago">{ nice_time_ago(time_us) } ago</div>
+      <div className="time-ago">{ nice_time_ago(time_us) } ago</div>
     </div>
   );
 }
@@ -104,7 +72,7 @@ function Json({ data }) {
     return <JsonArray items={data} />;
   }
   if (data === null) {
-    return <span class="null">null</span>;
+    return <span className="null">null</span>;
   }
   if (typeof data === "object") {
     return <JsonObject object={data} />;
@@ -157,11 +125,11 @@ function InlineStringArray({ strings }) {
 }
 
 function JsonString({ s }) {
-  return <span class="s">"{s}"</span>
+  return <span className="s">"{s}"</span>
 }
 
 function JsonNumber({ n }) {
-  return <span class="n">{n}</span>
+  return <span className="n">{n}</span>
 }
 
 function JsonObject({ object, ellide$type }) {
@@ -178,10 +146,10 @@ function JsonObject({ object, ellide$type }) {
   return (
     <>
       {'{'}
-      <div class="json-indent">
+      <div className="json-indent">
         {keys.map(k => (
           <div key={k} className="json-object-kv">
-            <span class="json-obj-key">
+            <span className="json-obj-key">
               "{k}"
             </span>
             :{' '}
@@ -198,7 +166,7 @@ function InlineKV({ k, v }) {
   return (
     <>
       {'{'}
-      <span class="json-obj-key">
+      <span className="json-obj-key">
         "{k}"
       </span>
       :{' '}

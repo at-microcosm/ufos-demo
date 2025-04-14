@@ -4,9 +4,10 @@ import LexiconGroup from './LexiconGroup'
 import RecordSamples from './RecordSamples'
 
 import collections from './collections.json'
-import { filtering, to_top_groups } from './group_collections'
+import { adapt_new_api, filtering, to_top_groups } from './group_collections'
 
-import SearchFilter from './SearchFilter.tsx'
+import SearchFilter from './SearchFilter'
+import Fetch from './Fetch'
 
 function App({ hash }) {
   window.onkeyup = e => !!hash && e.keyCode === 27 && window.history.back();
@@ -15,7 +16,7 @@ function App({ hash }) {
 
   return (
     <>
-      <p class="wip">very very work-in-progress demo</p>
+      <p className="wip">very very work-in-progress demo</p>
       <h1>UFOs</h1>
       <p className="def">
         <strong>U</strong>nidentified <strong>F</strong>lying lexic<strong>O</strong>ns <small>(sorry)</small>
@@ -23,15 +24,17 @@ function App({ hash }) {
       <div className="search-filter-card">
         <SearchFilter onSetFilter={setFilter} />
       </div>
-      <div className="nsid-groups">
-        {to_top_groups(filtering(collections, filter)).map((g, _, all) =>
-          <LexiconGroup
-            key={g.group}
-            group={g}
-            max={all[0]?.n}
-          />
-        )}
-      </div>
+      <Fetch get="http://localhost:9999/collections" ok={collections => (
+        <div className="nsid-groups">
+          {to_top_groups(filtering(adapt_new_api(collections), filter)).map((g, _, all) =>
+            <LexiconGroup
+              key={g.group}
+              group={g}
+              max={all[0]?.n}
+            />
+          )}
+        </div>
+      )} />
       {!!hash && (<RecordSamples collection={hash} />)}
     </>
   )

@@ -9,6 +9,24 @@ function filtering(cs, filter) {
   return out;
 }
 
+function adapt_new_api(bleh) {
+  // this will lose inner leaves. oh well for now.
+  const by_nsid = {};
+  const f = (path, o) => {
+    console.log(path, o);
+    let child_segments = Object.keys(o.nsid_child_segments);
+    if (child_segments.length === 0) {
+      console.log('o', o);
+      by_nsid[path.join('.')] = o.total_records;
+    } else {
+      child_segments.forEach(segment =>
+        f([...path, segment], o.nsid_child_segments[segment]));
+    }
+  };
+  f([], bleh);
+  return by_nsid;
+}
+
 function to_top_groups(cs) {
   const grouped = {};
   Object.keys(cs).forEach(nsid => {
@@ -41,4 +59,4 @@ function to_top_groups(cs) {
   return groups;
 }
 
-export { to_top_groups, filtering }
+export { adapt_new_api, to_top_groups, filtering }
