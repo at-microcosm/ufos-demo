@@ -1,17 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, JSX } from 'react';
 
 const loadingDefault = () => (
   <p><em>Loading&hellip;</em></p>
 );
 
-const errorDefault = ({ err }) => (
+const errorDefault = (err: unknown) => (
   <p className="error mono">
-    <strong>Error</strong>:<br/>{`${asyncData.err}`}
+    <strong>Error</strong>:<br/>{`${err}`}
   </p>
 );
 
-function Fetch({ get, ok, loading, error }) {
-  const [asyncData, setAsyncData] = useState({ state: null });
+type AsyncData<T> = { state: null }
+                  | { state: 'loading' }
+                  | { state: 'error', err: unknown }
+                  | { state: 'done', data: T };
+
+function Fetch({ get, ok, loading, error }: {
+  get: string,
+  ok: (collections: any) => JSX.Element,
+  loading?: (getting: string) => JSX.Element,
+  error?: (error: unknown) => JSX.Element,
+}) {
+  const [asyncData, setAsyncData] = useState<AsyncData<any>>({ state: null });
 
   useEffect(() => {
     let ignore = false;
@@ -42,7 +52,6 @@ function Fetch({ get, ok, loading, error }) {
   } else if (asyncData.state === null) {
     return <p>wat, request has not started (bug?)</p>;
   } else {
-    if (asyncData.state !== 'done') { console.warn(`unexpected async data state: ${asyncData.state}`); }
     return ok(asyncData.data);
   }
 }

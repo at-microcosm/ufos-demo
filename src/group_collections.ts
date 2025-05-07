@@ -1,6 +1,6 @@
-function filtering(cs, filter) {
+function filtering(cs: any, filter: string) {
   if (!filter) return cs;
-  let out = {};
+  let out: any = {};
   Object.keys(cs).forEach(nsid => {
     if (nsid.includes(filter)) {
       out[nsid] = cs[nsid];
@@ -9,10 +9,10 @@ function filtering(cs, filter) {
   return out;
 }
 
-function adapt_new_api(bleh) {
+function adapt_new_api(bleh: any) {
   // this will lose inner leaves. oh well for now.
-  const by_nsid = {};
-  const f = (path, o) => {
+  const by_nsid: any = {};
+  const f = (path: string[], o: any) => {
     console.log(path, o);
     let child_segments = Object.keys(o.nsid_child_segments);
     if (child_segments.length === 0) {
@@ -27,11 +27,10 @@ function adapt_new_api(bleh) {
   return by_nsid;
 }
 
-function to_top_groups(cs) {
-  const grouped = {};
+function to_top_groups(cs: any) {
+  const grouped: any = {};
   Object.keys(cs).forEach(nsid => {
     const n = cs[nsid];
-    const things = [];
     const parts = nsid.split('.');
     const group = parts.slice(0, 2).join('.');
     const thing = parts.slice(2).join('.');
@@ -51,7 +50,7 @@ function to_top_groups(cs) {
 
   let groups = Object.keys(grouped).map(group => {
     let grouped_group = grouped[group];
-    grouped_group.things.sort((a, b) => b.n - a.n);
+    grouped_group.things.sort((a: any, b: any) => b.n - a.n);
     return { group, ...grouped_group };
   });
   groups.sort((a, b) => b.n - a.n)

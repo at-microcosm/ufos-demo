@@ -3,13 +3,12 @@ import { useState } from 'react'
 import LexiconGroup from './LexiconGroup'
 import RecordSamples from './RecordSamples'
 
-import collections from './collections.json'
 import { adapt_new_api, filtering, to_top_groups } from './group_collections'
 
 import SearchFilter from './SearchFilter'
 import Fetch from './Fetch'
 
-function App({ hash }) {
+function App({ hash }: { hash?: string }) {
   window.onkeyup = e => !!hash && e.keyCode === 27 && window.history.back();
 
   const [filter, setFilter] = useState('');

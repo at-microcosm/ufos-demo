@@ -2,7 +2,10 @@ import { useState } from 'react'
 import './LexiconGroup.css'
 
 
-function LexiconGroup({ group, max }) {
+function LexiconGroup({ group, max }: {
+  group: any,
+  max: number,
+}) {
   const [expand, setExpand] = useState(false)
 
   let bar_width = 100 * (Math.log(group.n) + 1) / (Math.log(max) + 1);
@@ -19,7 +22,7 @@ function LexiconGroup({ group, max }) {
         </button>
       </h3>
       {expand && <div>
-        {group.things.map(thing => (
+        {group.things.map((thing: any) => (
           <Suffix
             key={thing.thing}
             group={group.group}
@@ -32,7 +35,11 @@ function LexiconGroup({ group, max }) {
   );
 }
 
-function Suffix({ group, thing, max }) {
+function Suffix({ group, thing, max }: {
+  group: string,
+  thing: any,
+  max: number,
+}) {
   let bar_width = 100 * (Math.log(thing.n) + 1) / (Math.log(max) + 1);
   return (
     <div className="suffix-group">

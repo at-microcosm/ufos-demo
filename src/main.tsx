@@ -5,7 +5,7 @@ import App from './App.tsx'
 
 const root = createRoot(document.getElementById('root')!);
 
-const wrap = hash => (
+const wrap = (hash?: string) => (
   <StrictMode>
     <App hash={hash} />
   </StrictMode>

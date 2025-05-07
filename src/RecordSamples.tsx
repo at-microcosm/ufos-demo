@@ -1,15 +1,15 @@
-// import { useEffect, useState } from 'react';
+import { MouseEvent } from 'react'
 import Fetch from './Fetch'
 
 import './RecordSamples.css'
 
-const esc = e => { window.history.back(); }
-const stopProp = e => e.stopPropagation();
+const esc = () => { window.history.back(); }
+const stopProp = (e: MouseEvent<HTMLElement>) => e.stopPropagation();
 
         // const res = await fetch(`http://localhost:9999/records?collection=${collection}`);
         // const res = await fetch(`http://bonilla:9999/records?collection=${collection}`);
 
-function RecordSamples({ collection }) {
+function RecordSamples({ collection }: { collection: string }) {
   const url = `http://localhost:9999/records?collection=${collection}`
   return (
     <div className="preview-overlay" onClick={esc}>
@@ -17,7 +17,7 @@ function RecordSamples({ collection }) {
         <h3 className="mono">{collection}</h3>
         <Fetch get={url} ok={samples => (
           <div className="samples-view mono">
-            {samples.map(sample =>
+            {samples.map((sample: any) =>
               <Sample key={`${sample.did}//${sample.rkey}`} data={sample} />)}
           </div>
         )} />
@@ -27,7 +27,7 @@ function RecordSamples({ collection }) {
 }
 
 
-function nice_time_ago(us) {
+function nice_time_ago(us: number) {
   let dt = +new Date() - (us / 1000);
   if (dt < 1000) {
     return `${Math.round(dt)} ms`;
@@ -49,7 +49,7 @@ function nice_time_ago(us) {
 }
 
 
-function Sample({ data }) {
+function Sample({ data }: { data: any }) {
   const { did, collection, rkey, time_us, record } = data;
   const at_uri = `at://${did}/${collection}/${rkey}`;
 
@@ -67,7 +67,7 @@ function Sample({ data }) {
 }
 
 
-function Json({ data }) {
+function Json({ data }: { data: any }) {
   if (Array.isArray(data)) {
     return <JsonArray items={data} />;
   }
@@ -86,7 +86,7 @@ function Json({ data }) {
   return '' + data;
 }
 
-function JsonArray({ items }) {
+function JsonArray({ items }: { items: any[] }) {
   if (
     items.every(item => typeof item === "string") &&
     items.map(item => item.length).reduce((a, b) => a + b, 0) < 80
@@ -109,7 +109,7 @@ function JsonArray({ items }) {
     </>
   );
 }
-function InlineStringArray({ strings }) {
+function InlineStringArray({ strings }: { strings: any[] }) {
   return (
     <>
       [
@@ -124,15 +124,15 @@ function InlineStringArray({ strings }) {
   );
 }
 
-function JsonString({ s }) {
+function JsonString({ s }: { s: string }) {
   return <span className="s">"{s}"</span>
 }
 
-function JsonNumber({ n }) {
+function JsonNumber({ n }: { n: number }) {
   return <span className="n">{n}</span>
 }
 
-function JsonObject({ object, ellide$type }) {
+function JsonObject({ object, ellide$type }: { object: any, ellide$type?: string }) {
   let keys = Object.keys(object).filter(k => !(k === "$type" && object[k] === ellide$type));
 
   if (
@@ -162,7 +162,7 @@ function JsonObject({ object, ellide$type }) {
   );
 }
 
-function InlineKV({ k, v }) {
+function InlineKV({ k, v }: { k: string, v: string }) {
   return (
     <>
       {'{'}
